@@ -1,4 +1,4 @@
-# Relatório — <seu nome> (<sua matrícula>)
+# Relatório — Emilio (20045)
 
 Relatório do projeto, preenchido na sua branch. Cada marco acrescenta a sua seção. Responda com as suas palavras e com
 os números da sua execução; cada resposta cabe em até 6 linhas, além das tabelas.
@@ -7,19 +7,19 @@ os números da sua execução; cada resposta cabe em até 6 linhas, além das ta
 
 ### Ambiente
 
-<!-- Cole aqui a saída de `which python` e da Etapa 0 do `python marco1.py`. -->
+/Users/evbrazil/venvs/prog2-venv/bin/python
 
 ### R1 — Expressões regulares
 
-<!-- Uma string que re.match aceita e re.fullmatch rejeita com o padrão de tag; consequência para valida_tag. -->
+"PT1010x" -> Fullmatch rejeita e match aceita
 
 ### R2 — Linhas inválidas
 
-<!-- Por que ler_log devolve as linhas descartadas; uma situação real em que descartar em silêncio esconderia um problema. -->
+Um censor com defeito poderia passar despercebido
 
 ### R3 — Late binding
 
-<!-- Por que errados["PT102"](4095) dá 409,5 e por que a sua criar_conversores não tem o problema. -->
+como a função é criada apenas após o última iteração o dfator é o ultimo para todas as funções. Para resolver forcei o fator com um valor padrão o que o briga o interpretador a avaliar a cada iteração. 
 
 ### R4 — Escala nominal
 
@@ -27,13 +27,13 @@ os números da sua execução; cada resposta cabe em até 6 linhas, além das ta
 
 ### R5 — Previsão × medição (Etapa 3)
 
-Previsões registradas no commit: <!-- cole o hash curto do commit de previsões -->
+Previsões registradas no commit:
 
 | Grandeza | Previsão | Medido |
 | --- | --- | --- |
-| Memória da lista / memória do `uint16` | | |
-| Tempo do laço / tempo vetorizado | | |
-| Tempo da compreensão / tempo do laço | | |
+| Memória da lista / memória do `uint16` | 4 | |
+| Tempo do laço / tempo vetorizado | 10 | |
+| Tempo da compreensão / tempo do laço | 0.1 | |
 
 <!-- Explique a maior diferença entre previsão e medição; por que uint16 * 20 dá 16364; que dtype você escolheria para contagens e para kPa. -->
 
