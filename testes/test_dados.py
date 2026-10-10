@@ -15,6 +15,8 @@ from elevatoria.dados import serie
 from elevatoria.dados import criar_conversores
 from elevatoria.dados import medir_memoria
 from elevatoria.dados import medir_tempos
+from elevatoria.serie import SerieTemporal
+
 
 # usado em TestContagemPorTag e TestSerie
 registros = [
@@ -181,6 +183,33 @@ class TestMedirTempos(unittest.TestCase):
             self.assertIsInstance(tempos_usados[chave], float)
             self.assertGreaterEqual(tempos_usados[chave], 0.0)
         
+
+class TestMediaMovel(unittest.TestCase):
+    """Testes da função media_movel (issue #4)."""
+
+    def test_media_movel(self):
+        """Média móvel de uma série simples."""
+        st = SerieTemporal.de_lista([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0])
+        resultado = st.media_movel(janela=3)
+        esperado = np.array([2.0, 3.0, 4.0, 5.0, 6.0])
+        self.assertTrue(np.allclose(resultado, esperado))
+
+class TestReamostrar(unittest.TestCase):
+    """Testes da função reamostrar (issue #5)."""
+
+    def test_reamostrar(self):
+        """Reamostragem de uma série simples."""
+        st = SerieTemporal.de_lista([1.0, 2.0, 3.0, 4.0, 5.0, 6.0])
+        resultado = st.reamostrar(k=2)
+        esperado = np.array([1.5, 3.5, 5.5])
+        self.assertTrue(np.allclose(resultado, esperado))
+
+    def test_reamostrar(self):
+        """Reamostragem de uma série simples com sobra."""
+        st = SerieTemporal.de_lista([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0])
+        resultado = st.reamostrar(k=2)
+        esperado = np.array([1.5, 3.5, 5.5])
+        self.assertTrue(np.allclose(resultado, esperado))
 
 if __name__ == "__main__":
     unittest.main()

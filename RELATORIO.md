@@ -31,24 +31,27 @@ Previsões registradas no commit:
 
 | Grandeza | Previsão | Medido |
 | --- | --- | --- |
-| Memória da lista / memória do `uint16` | 4 | |
-| Tempo do laço / tempo vetorizado | 10 | |
-| Tempo da compreensão / tempo do laço | 0.1 | |
+| Memória da lista / memória do `uint16` | 4 | 18 |
+| Tempo do laço / tempo vetorizado | 10 | 57 |
+| Tempo da compreensão / tempo do laço | 0.1 | 0,71 |
 
-<!-- Explique a maior diferença entre previsão e medição; por que uint16 * 20 dá 16364; que dtype você escolheria para contagens e para kPa. -->
+A lista sempre ocupa pelo menos o espaço de 64bits (um registrado) mais a sobreposição das informações de classe enquanto o uint16 é apenas a informação que está na memória.
+O laço sempre é lento pois em uma linguagem script é interpretado enquanto a operação com Vetor NumPy é otimizada para vetor.
+O tempo de compreesão no python é otimizado, por isso é melhor.
+Eu usária o Vetorizado para contar pela sua velocidade.
 
 ### R6 — Tipos da SerieTemporal (Etapa 4d)
 
 | Expressão | Tipo previsto | Tipo observado |
 | --- | --- | --- |
-| `s + s` | | |
-| `s[1:]` | | |
-| `s * 2` | | |
-| `s.sum()` | | |
-| `s[0]` | | |
+| `s + s` | SerieTemporal | SerieTemporal |
+| `s[1:]` | SerieTemporal | SerieTemporal |
+| `s * 2` | SerieTemporal | SerieTemporal |
+| `s.sum()` | SerieTemporal | SerieTemporal |
+| `s[0]` | float | float64 |
 
-<!-- Explique o resultado que mais surpreendeu você. -->
+Nenhum me surpreendeu
 
 ### R7 — Issue #4
 
-<!-- Sintoma; o teste de regressão (nome); a causa, em termos da soma acumulada; a correção; por que os testes de aceitação não pegaram o defeito; mais um caso que eles não cobrem e qual teste seu o cobre. -->
+test_media_movel, testa o resultado levando em conta o vetor inteiro conforme descrito com resultado comparando numero a numero, enquanto os outros testes só levam en consideração a chamada da função sem conferir o resultado.
