@@ -63,16 +63,36 @@ def medir(registros: list[Registro], tag: str, curva: CurvaCalibracao,
     for zero ou se sobrarem menos de 2 leituras válidas. Um `ValueError` da curva (contagem
     fora do domínio) não é tratado: ele chega a quem chamou `medir`.
     """
-    raise NotImplementedError("issue #6: medir")
+    contagem = serie(registros, tag, chave="contagens")
+    convertidas = np.array([curva(c) for c in contagem])
+    mediana = np.median(convertidas)
+    mad = stats.median_abs_deviation(convertidas, scale="normal")
+    if mad == 0:
+        raise ValueError("MAD é zero; não é possível detectar espúrias")
+    z = (convertidas - mediana) / mad
+    espurias = np.where(np.abs(z) > limiar)[0].tolist()
+    validas = np.delete(convertidas, espurias)
+    if len(validas) < 2:
+        raise ValueError("menos de 2 leituras válidas após descartar espúrias")
+    media = np.mean(validas)
+    desvio = np.std(validas, ddof=1)
+    erro_padrao = stats.sem(validas)
+    if u_sistematica < 0:
+        raise ValueError(f"u_sistematica deve ser não-negativa; recebi {u_sistematica!r}")
+    u_total = np.sqrt(erro_padrao**2 + u_sistematica**2)
+    return Medicao(tag, Medida(media, u_total), desvio, len(validas), espurias)
 
 
 def altura_manometrica(registros: list[Registro], curva: CurvaCalibracao,
                        u_sistematica: float = 1.5) -> Medida:
-    """Altura manométrica da bomba, em metros, com a sua incerteza.
+   """Altura manométrica da bomba, em metros, com a sua incerteza.
 
-    `H = (P_PT102 - P_PT101) * 1000 / (MASSA_ESPECIFICA * GRAVIDADE)`, em que `P_PT101` e
-    `P_PT102` são as `medida`s de `medir` para as duas tags, em kPa (o fator 1000 converte
-    para Pa), ambas com a incerteza sistemática `u_sistematica`. Todas as contas são feitas
-    com `Medida`, que propaga as incertezas.
-    """
-    raise NotImplementedError("issue #6: altura_manometrica")
+   `H = (P_PT102 - P_PT101) * 1000 / (MASSA_ESPECIFICA * GRAVIDADE)`, em que `P_PT101` e
+   `P_PT102` são as `medida`s de `medir` para as duas tags, em kPa (o fator 1000 converte
+   para Pa), ambas com a incerteza sistemática `u_sistematica`. Todas as contas são feitas
+   com `Medida`, que propaga as incertezas.
+   """
+   p1 = medir(registros, "PT101", curva, u_sistematica)
+   p2 = medir(registros, "PT102", curva, u_sistematica)
+   h = (p2.medida - p1.medida) * 1000 / (MASSA_ESPECIFICA * GRAVIDADE)
+   return h

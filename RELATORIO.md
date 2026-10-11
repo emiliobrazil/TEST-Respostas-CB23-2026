@@ -55,3 +55,22 @@ Nenhum me surpreendeu
 ### R7 — Issue #4
 
 test_media_movel, testa o resultado levando em conta o vetor inteiro conforme descrito com resultado comparando numero a numero, enquanto os outros testes só levam en consideração a chamada da função sem conferir o resultado.
+
+## Marco 2
+
+### Ambiente
+
+=== Etapa 0: ambiente ===
+Python 3.9.6 | NumPy 2.0.2 | SciPy 1.13.1 | fornecido 2.0 | matrícula 20045
+
+### R8 — Derivada numérica
+
+Para h grande, domina o erro de truncamento: a diferença adiante erra na proporção de h, e por isso o erro cai 10× cada vez que h diminui 10×. Para h pequeno, domina o erro de arredondamento: f(x + h) e f(x) ficam quase iguais, e a subtração perde dígitos. O melhor h fica no meio, onde os dois se equilibram (aqui, h = 1e-5). Em h = 1e-14, 1000 + 1e-14 == 1000: o numerador dá zero, a aproximação vale 0 e o erro é a própria derivada (0,2134).
+
+### R9 — Issue #7
+
+Em ponto flutuante, t já é o resultado arredondado de s + y. Calcular s + y de novo dá exatamente o mesmo t, então t - (s + y) é sempre zero e a correção nunca age: o algoritmo vira a soma ingênua. Já (t - s) - y mede o que de fato se perdeu no arredondamento. Os testes de aceitação somam só dez parcelas e usam math.isclose, que a soma ingênua também satisfaz.
+
+### R10 — Precisão × exatidão
+
+O desvio (≈ 0,53 kPa, igual nas duas curvas) mede a precisão: o quanto as leituras se espalham. O viés (−1,83 kPa na linear, ≈ 0 na spline) mede a exatidão: o quanto a média se afasta do valor verdadeiro. Mais leituras reduzem o efeito do ruído, mas não o viés, porque a curva linear erra sempre para o mesmo lado.
