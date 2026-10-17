@@ -74,3 +74,15 @@ Em ponto flutuante, t já é o resultado arredondado de s + y. Calcular s + y de
 ### R10 — Precisão × exatidão
 
 O desvio (≈ 0,53 kPa, igual nas duas curvas) mede a precisão: o quanto as leituras se espalham. O viés (−1,83 kPa na linear, ≈ 0 na spline) mede a exatidão: o quanto a média se afasta do valor verdadeiro. Mais leituras reduzem o efeito do ruído, mas não o viés, porque a curva linear erra sempre para o mesmo lado.
+
+## Marco 3
+
+### R11 — Bissecção × Newton
+
+Quando o ponto inicial é um ponto perto de um ponto de sela.
+
+### R12 — Issue #9
+
+def test_raiz_df(self):
+def test_raiz_df_numerica(self):
+Quando se faz apenas a primeira derivada não se atualiza mais a iteração com o valor da derivada do ponto, assim não compensa a direção de descida, logo o passo se torna linear.
